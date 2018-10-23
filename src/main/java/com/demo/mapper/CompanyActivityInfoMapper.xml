@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.CompanyActivityInfoMapper">
+  <resultMap id="BaseResultMap" type="com.demo.model.CompanyActivityInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
+    <result column="activity_type" jdbcType="VARCHAR" property="activityType" />
+    <result column="apply_start_time" jdbcType="TIMESTAMP" property="applyStartTime" />
+    <result column="apply_end_time" jdbcType="TIMESTAMP" property="applyEndTime" />
+    <result column="competition_start_time" jdbcType="TIMESTAMP" property="competitionStartTime" />
+    <result column="competition_end_time" jdbcType="TIMESTAMP" property="competitionEndTime" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="applicant" jdbcType="BIGINT" property="applicant" />
+    <result column="participant" jdbcType="BIGINT" property="participant" />
+    <result column="virtual" jdbcType="BIGINT" property="virtual" />
+    <result column="activity_link" jdbcType="VARCHAR" property="activityLink" />
+    <result column="risk_and_disclaimer" jdbcType="VARCHAR" property="riskAndDisclaimer" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.demo.model.CompanyActivityInfo">
+    <result column="competition_notice" jdbcType="LONGVARCHAR" property="competitionNotice" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, company_id, activity_type, apply_start_time, apply_end_time, competition_start_time, 
+    competition_end_time, status, applicant, participant, virtual, activity_link, risk_and_disclaimer, 
+    create_by, create_time, update_by, update_time
+  </sql>
+  <sql id="Blob_Column_List">
+    competition_notice
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.demo.model.CompanyActivityInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_company_activity_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.demo.model.CompanyActivityInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_company_activity_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_company_activity_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_company_activity_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.demo.model.CompanyActivityInfoExample">
+    delete from tb_company_activity_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.demo.model.CompanyActivityInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_company_activity_info (company_id, activity_type, apply_start_time, 
+      apply_end_time, competition_start_time, 
+      competition_end_time, status, applicant, 
+      participant, virtual, activity_link, 
+      risk_and_disclaimer, create_by, create_time, 
+      update_by, update_time, competition_notice
+      )
+    values (#{companyId,jdbcType=BIGINT}, #{activityType,jdbcType=VARCHAR}, #{applyStartTime,jdbcType=TIMESTAMP}, 
+      #{applyEndTime,jdbcType=TIMESTAMP}, #{competitionStartTime,jdbcType=TIMESTAMP}, 
+      #{competitionEndTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{applicant,jdbcType=BIGINT}, 
+      #{participant,jdbcType=BIGINT}, #{virtual,jdbcType=BIGINT}, #{activityLink,jdbcType=VARCHAR}, 
+      #{riskAndDisclaimer,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{competitionNotice,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.model.CompanyActivityInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_company_activity_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="activityType != null">
+        activity_type,
+      </if>
+      <if test="applyStartTime != null">
+        apply_start_time,
+      </if>
+      <if test="applyEndTime != null">
+        apply_end_time,
+      </if>
+      <if test="competitionStartTime != null">
+        competition_start_time,
+      </if>
+      <if test="competitionEndTime != null">
+        competition_end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="applicant != null">
+        applicant,
+      </if>
+      <if test="participant != null">
+        participant,
+      </if>
+      <if test="virtual != null">
+        virtual,
+      </if>
+      <if test="activityLink != null">
+        activity_link,
+      </if>
+      <if test="riskAndDisclaimer != null">
+        risk_and_disclaimer,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="competitionNotice != null">
+        competition_notice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="activityType != null">
+        #{activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStartTime != null">
+        #{applyStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyEndTime != null">
+        #{applyEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionStartTime != null">
+        #{competitionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionEndTime != null">
+        #{competitionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="applicant != null">
+        #{applicant,jdbcType=BIGINT},
+      </if>
+      <if test="participant != null">
+        #{participant,jdbcType=BIGINT},
+      </if>
+      <if test="virtual != null">
+        #{virtual,jdbcType=BIGINT},
+      </if>
+      <if test="activityLink != null">
+        #{activityLink,jdbcType=VARCHAR},
+      </if>
+      <if test="riskAndDisclaimer != null">
+        #{riskAndDisclaimer,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionNotice != null">
+        #{competitionNotice,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.demo.model.CompanyActivityInfoExample" resultType="java.lang.Long">
+    select count(*) from tb_company_activity_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_company_activity_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.activityType != null">
+        activity_type = #{record.activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyStartTime != null">
+        apply_start_time = #{record.applyStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.applyEndTime != null">
+        apply_end_time = #{record.applyEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.competitionStartTime != null">
+        competition_start_time = #{record.competitionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.competitionEndTime != null">
+        competition_end_time = #{record.competitionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.applicant != null">
+        applicant = #{record.applicant,jdbcType=BIGINT},
+      </if>
+      <if test="record.participant != null">
+        participant = #{record.participant,jdbcType=BIGINT},
+      </if>
+      <if test="record.virtual != null">
+        virtual = #{record.virtual,jdbcType=BIGINT},
+      </if>
+      <if test="record.activityLink != null">
+        activity_link = #{record.activityLink,jdbcType=VARCHAR},
+      </if>
+      <if test="record.riskAndDisclaimer != null">
+        risk_and_disclaimer = #{record.riskAndDisclaimer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.competitionNotice != null">
+        competition_notice = #{record.competitionNotice,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update tb_company_activity_info
+    set id = #{record.id,jdbcType=BIGINT},
+      company_id = #{record.companyId,jdbcType=BIGINT},
+      activity_type = #{record.activityType,jdbcType=VARCHAR},
+      apply_start_time = #{record.applyStartTime,jdbcType=TIMESTAMP},
+      apply_end_time = #{record.applyEndTime,jdbcType=TIMESTAMP},
+      competition_start_time = #{record.competitionStartTime,jdbcType=TIMESTAMP},
+      competition_end_time = #{record.competitionEndTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT},
+      applicant = #{record.applicant,jdbcType=BIGINT},
+      participant = #{record.participant,jdbcType=BIGINT},
+      virtual = #{record.virtual,jdbcType=BIGINT},
+      activity_link = #{record.activityLink,jdbcType=VARCHAR},
+      risk_and_disclaimer = #{record.riskAndDisclaimer,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      competition_notice = #{record.competitionNotice,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_company_activity_info
+    set id = #{record.id,jdbcType=BIGINT},
+      company_id = #{record.companyId,jdbcType=BIGINT},
+      activity_type = #{record.activityType,jdbcType=VARCHAR},
+      apply_start_time = #{record.applyStartTime,jdbcType=TIMESTAMP},
+      apply_end_time = #{record.applyEndTime,jdbcType=TIMESTAMP},
+      competition_start_time = #{record.competitionStartTime,jdbcType=TIMESTAMP},
+      competition_end_time = #{record.competitionEndTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=TINYINT},
+      applicant = #{record.applicant,jdbcType=BIGINT},
+      participant = #{record.participant,jdbcType=BIGINT},
+      virtual = #{record.virtual,jdbcType=BIGINT},
+      activity_link = #{record.activityLink,jdbcType=VARCHAR},
+      risk_and_disclaimer = #{record.riskAndDisclaimer,jdbcType=VARCHAR},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.model.CompanyActivityInfo">
+    update tb_company_activity_info
+    <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="activityType != null">
+        activity_type = #{activityType,jdbcType=VARCHAR},
+      </if>
+      <if test="applyStartTime != null">
+        apply_start_time = #{applyStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applyEndTime != null">
+        apply_end_time = #{applyEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionStartTime != null">
+        competition_start_time = #{competitionStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionEndTime != null">
+        competition_end_time = #{competitionEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="applicant != null">
+        applicant = #{applicant,jdbcType=BIGINT},
+      </if>
+      <if test="participant != null">
+        participant = #{participant,jdbcType=BIGINT},
+      </if>
+      <if test="virtual != null">
+        virtual = #{virtual,jdbcType=BIGINT},
+      </if>
+      <if test="activityLink != null">
+        activity_link = #{activityLink,jdbcType=VARCHAR},
+      </if>
+      <if test="riskAndDisclaimer != null">
+        risk_and_disclaimer = #{riskAndDisclaimer,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="competitionNotice != null">
+        competition_notice = #{competitionNotice,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.demo.model.CompanyActivityInfo">
+    update tb_company_activity_info
+    set company_id = #{companyId,jdbcType=BIGINT},
+      activity_type = #{activityType,jdbcType=VARCHAR},
+      apply_start_time = #{applyStartTime,jdbcType=TIMESTAMP},
+      apply_end_time = #{applyEndTime,jdbcType=TIMESTAMP},
+      competition_start_time = #{competitionStartTime,jdbcType=TIMESTAMP},
+      competition_end_time = #{competitionEndTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      applicant = #{applicant,jdbcType=BIGINT},
+      participant = #{participant,jdbcType=BIGINT},
+      virtual = #{virtual,jdbcType=BIGINT},
+      activity_link = #{activityLink,jdbcType=VARCHAR},
+      risk_and_disclaimer = #{riskAndDisclaimer,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      competition_notice = #{competitionNotice,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.model.CompanyActivityInfo">
+    update tb_company_activity_info
+    set company_id = #{companyId,jdbcType=BIGINT},
+      activity_type = #{activityType,jdbcType=VARCHAR},
+      apply_start_time = #{applyStartTime,jdbcType=TIMESTAMP},
+      apply_end_time = #{applyEndTime,jdbcType=TIMESTAMP},
+      competition_start_time = #{competitionStartTime,jdbcType=TIMESTAMP},
+      competition_end_time = #{competitionEndTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      applicant = #{applicant,jdbcType=BIGINT},
+      participant = #{participant,jdbcType=BIGINT},
+      virtual = #{virtual,jdbcType=BIGINT},
+      activity_link = #{activityLink,jdbcType=VARCHAR},
+      risk_and_disclaimer = #{riskAndDisclaimer,jdbcType=VARCHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

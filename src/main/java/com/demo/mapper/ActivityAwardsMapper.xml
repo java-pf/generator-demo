@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.dao.ActivityAwardsMapper">
+  <resultMap id="BaseResultMap" type="com.demo.model.ActivityAwards">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="activity_id" jdbcType="BIGINT" property="activityId" />
+    <result column="awards_type" jdbcType="TINYINT" property="awardsType" />
+    <result column="awards_setting" jdbcType="VARCHAR" property="awardsSetting" />
+    <result column="prize_name" jdbcType="VARCHAR" property="prizeName" />
+    <result column="prize_number" jdbcType="INTEGER" property="prizeNumber" />
+    <result column="special_version" jdbcType="VARCHAR" property="specialVersion" />
+    <result column="the_winning_number" jdbcType="INTEGER" property="theWinningNumber" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, activity_id, awards_type, awards_setting, prize_name, prize_number, special_version, 
+    the_winning_number, create_by, create_time, update_by, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.demo.model.ActivityAwardsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_activity_awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_activity_awards
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_activity_awards
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.demo.model.ActivityAwardsExample">
+    delete from tb_activity_awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.demo.model.ActivityAwards">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_activity_awards (activity_id, awards_type, awards_setting, 
+      prize_name, prize_number, special_version, 
+      the_winning_number, create_by, create_time, 
+      update_by, update_time)
+    values (#{activityId,jdbcType=BIGINT}, #{awardsType,jdbcType=TINYINT}, #{awardsSetting,jdbcType=VARCHAR}, 
+      #{prizeName,jdbcType=VARCHAR}, #{prizeNumber,jdbcType=INTEGER}, #{specialVersion,jdbcType=VARCHAR}, 
+      #{theWinningNumber,jdbcType=INTEGER}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.model.ActivityAwards">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_activity_awards
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        activity_id,
+      </if>
+      <if test="awardsType != null">
+        awards_type,
+      </if>
+      <if test="awardsSetting != null">
+        awards_setting,
+      </if>
+      <if test="prizeName != null">
+        prize_name,
+      </if>
+      <if test="prizeNumber != null">
+        prize_number,
+      </if>
+      <if test="specialVersion != null">
+        special_version,
+      </if>
+      <if test="theWinningNumber != null">
+        the_winning_number,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="activityId != null">
+        #{activityId,jdbcType=BIGINT},
+      </if>
+      <if test="awardsType != null">
+        #{awardsType,jdbcType=TINYINT},
+      </if>
+      <if test="awardsSetting != null">
+        #{awardsSetting,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeName != null">
+        #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeNumber != null">
+        #{prizeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="specialVersion != null">
+        #{specialVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="theWinningNumber != null">
+        #{theWinningNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.demo.model.ActivityAwardsExample" resultType="java.lang.Long">
+    select count(*) from tb_activity_awards
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_activity_awards
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.awardsType != null">
+        awards_type = #{record.awardsType,jdbcType=TINYINT},
+      </if>
+      <if test="record.awardsSetting != null">
+        awards_setting = #{record.awardsSetting,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prizeName != null">
+        prize_name = #{record.prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prizeNumber != null">
+        prize_number = #{record.prizeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.specialVersion != null">
+        special_version = #{record.specialVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.theWinningNumber != null">
+        the_winning_number = #{record.theWinningNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createBy != null">
+        create_by = #{record.createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateBy != null">
+        update_by = #{record.updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_activity_awards
+    set id = #{record.id,jdbcType=BIGINT},
+      activity_id = #{record.activityId,jdbcType=BIGINT},
+      awards_type = #{record.awardsType,jdbcType=TINYINT},
+      awards_setting = #{record.awardsSetting,jdbcType=VARCHAR},
+      prize_name = #{record.prizeName,jdbcType=VARCHAR},
+      prize_number = #{record.prizeNumber,jdbcType=INTEGER},
+      special_version = #{record.specialVersion,jdbcType=VARCHAR},
+      the_winning_number = #{record.theWinningNumber,jdbcType=INTEGER},
+      create_by = #{record.createBy,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_by = #{record.updateBy,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.model.ActivityAwards">
+    update tb_activity_awards
+    <set>
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=BIGINT},
+      </if>
+      <if test="awardsType != null">
+        awards_type = #{awardsType,jdbcType=TINYINT},
+      </if>
+      <if test="awardsSetting != null">
+        awards_setting = #{awardsSetting,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeName != null">
+        prize_name = #{prizeName,jdbcType=VARCHAR},
+      </if>
+      <if test="prizeNumber != null">
+        prize_number = #{prizeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="specialVersion != null">
+        special_version = #{specialVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="theWinningNumber != null">
+        the_winning_number = #{theWinningNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.demo.model.ActivityAwards">
+    update tb_activity_awards
+    set activity_id = #{activityId,jdbcType=BIGINT},
+      awards_type = #{awardsType,jdbcType=TINYINT},
+      awards_setting = #{awardsSetting,jdbcType=VARCHAR},
+      prize_name = #{prizeName,jdbcType=VARCHAR},
+      prize_number = #{prizeNumber,jdbcType=INTEGER},
+      special_version = #{specialVersion,jdbcType=VARCHAR},
+      the_winning_number = #{theWinningNumber,jdbcType=INTEGER},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
